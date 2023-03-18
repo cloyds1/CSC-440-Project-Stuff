@@ -76,7 +76,7 @@ class DBInstance(DBWrapper):
         return self.instance
      
     def __init__(self, db_path, auto_commits):
-        super().__init__(db_path, global_commits)
+        super().__init__(db_path, auto_commits)
         
                       
     def get_user(self, user):
@@ -137,7 +137,7 @@ class DBInstance(DBWrapper):
         if "median" in kwargs:
             pass #return the median of results in the given order and given selection.
         else:
-            raise ValueError("Invalid token in **kwargs."
+            raise ValueError("Invalid token in **kwargs.")
                              
         return user
 
