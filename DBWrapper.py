@@ -85,27 +85,27 @@ class DBWrapper(object):
         raise DBWrapper.MissingImplementationException(DBWrapper.add.__name__)
     
     def exists(self, obj):
-        '''Abstract method for adding an entity to a generic database.'''
+        '''Abstract method for determining if an entity is in a generic database.'''
         raise DBWrapper.MissingImplementationException(DBWrapper.exists.__name__)
 
     def get(self, obj):
-        '''Abstract method for adding an entity to a generic database.'''
+        '''Abstract method for getting an entity from a generic database.'''
         raise DBWrapper.MissingImplementationException(DBWrapper.get.__name__)
 
     def delete(self, obj):
-        '''Abstract method for adding an entity to a generic database.'''
+        '''Abstract method for deleting an entity from a generic database.'''
         raise DBWrapper.MissingImplementationException(DBWrapper.delete.__name__)
 
     def edit(self, obj):
-        '''Abstract method for adding an entity to a generic database.'''
+        '''Abstract method for editing an entity in a generic database.'''
         raise DBWrapper.MissingImplementationException(DBWrapper.edit.__name__)
 
     def search(self, **kwargs):
-        '''Abstract method for adding an entity to a generic database.'''
+        '''Abstract method for retrieving all entities fitting certain requirements in a generic database.'''
         raise DBWrapper.MissingImplementationException(DBWrapper.search.__name__)
 
     def auto_commit(func):
-        '''Decorator for methods that modify a database, allowing rollback and commit support.'''
+        '''Decorator for methods that modify a database, allowing automatic rollback and commit support.'''
         def wrap(self, obj):
             func(self, obj)
             if self.auto_commits:
