@@ -24,7 +24,7 @@ class UserDBInstance(DBWrapper):
 
         def __eq__(self, rh):
             '''Operator override on ==. Will return true if username and password match between two user objects.'''
-            return self.name == rh.name and self.password == rh.password
+            return self.identifier == rh.identifier and self.password == rh.password
 
         def to_string(self):
             return "Username: %s, Active: %d, Authentication method: %s, Password: %s, Autheticated: %d, Roles: %s" %(self.identifier, self.active, self.auth_method, self.password, self.auth, self.roles)
@@ -65,14 +65,13 @@ class UserDBInstance(DBWrapper):
     def delete(self, obj):
         '''Delete a user entry in the database. Requires a User object initialized with a username to function.'''
 
-        self.cursor.execute(f"DELETE FROM user_data WHERE username = %s" %(obj.name,))
+        self.cursor.execute(f"DELETE FROM user_data WHERE username = '%s'" %(obj.identifier,))
         
     @DBWrapper.auto_commit 
     def edit(self, obj):
         '''Edit a user entry in the database. Requires a completely initialized User object to function.'''
-        pass
-        #self.cursor.execute(f"UPDATE INTO user_data (username, active, auth_method, password, auth, roles) VALUES('%s', %d, '%s', '%s', %d, '%s');" %
-                            #(user.name, user.active, user.auth_method, user.password, user.auth, user.roles,))
+        self.cursor.execute(f"UPDATE user_data SET active=%d, auth_method='%s', password='%s', auth=%d, roles='%s' WHERE username='%s';" %
+                            (obj.active, obj.auth_method, obj.password, obj.auth, obj.roles, obj.identifier,))
             
     @DBWrapper.auto_commit 
     def add(self, obj):
@@ -84,7 +83,7 @@ class UserDBInstance(DBWrapper):
 
     def exists(self, obj):
         '''Returns if a user exists in the database.'''
-        if not self.get(obj.identifier):
+        if not self.get(obj):
             return False
         return True
 
